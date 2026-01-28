@@ -14,7 +14,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex items-center -translate-y-3">
-        <div className="max-w-7xl px-6 w-full ml-0 lg:pl-24">
+        <div className="mx-auto w-full max-w-screen-2xl px-16 lg:px-20 xl:px-24">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             
             {/* Text block */}
@@ -33,12 +33,82 @@ const HeroSection = () => {
               </p>
 
               <div className="flex gap-4">
-                <button className="bg-red-500 text-white px-6 py-3 rounded-xl font-medium">
-                  Jelajahi Telkom Group
+                {/* Button 1 - Red Glass with white shimmer stroke */}
+                <button 
+                  className="relative px-6 py-3 rounded-2xl font-medium text-red-600 overflow-hidden group"
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.15)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                  }}
+                >
+                  {/* Shimmer Border Animation */}
+                  <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
+                    <rect
+                      x="1"
+                      y="1"
+                      width="calc(100% - 2px)"
+                      height="calc(100% - 2px)"
+                      rx="15"
+                      fill="none"
+                      stroke="url(#shimmer-gradient-1)"
+                      strokeWidth="2"
+                      strokeDasharray="300"
+                      strokeDashoffset="0"
+                      style={{
+                        animation: 'dash 3s linear infinite'
+                      }}
+                    />
+                    <defs>
+                      <linearGradient id="shimmer-gradient-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="rgba(255, 255, 255, 0)" />
+                        <stop offset="50%" stopColor="rgba(255, 255, 255, 1)" />
+                        <stop offset="100%" stopColor="rgba(255, 255, 255, 0)" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  
+                  <span className="relative z-10">Jelajahi Telkom Group</span>
                 </button>
 
-                <button className="bg-white border border-gray-300 px-6 py-3 rounded-xl font-medium">
-                  Lihat Layanan →
+                {/* Button 2 - White Glass with red shimmer stroke */}
+                <button 
+                  className="relative px-6 py-3 rounded-2xl font-medium text-gray-900 overflow-hidden group"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1.5px solid rgba(200, 200, 200, 0.5)',
+                  }}
+                >
+                  {/* Shimmer Border Animation */}
+                  <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
+                    <rect
+                      x="1"
+                      y="1"
+                      width="calc(100% - 2px)"
+                      height="calc(100% - 2px)"
+                      rx="15"
+                      fill="none"
+                      stroke="url(#shimmer-gradient-2)"
+                      strokeWidth="1.5"
+                      strokeDasharray="300"
+                      strokeDashoffset="0"
+                      style={{
+                        animation: 'dash 3s linear infinite'
+                      }}
+                    />
+                    <defs>
+                      <linearGradient id="shimmer-gradient-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="rgba(239, 68, 68, 0)" />
+                        <stop offset="50%" stopColor="rgba(239, 68, 68, 0.9)" />
+                        <stop offset="100%" stopColor="rgba(239, 68, 68, 0)" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  
+                  <span className="relative z-10">Lihat Layanan →</span>
                 </button>
               </div>
             </div>
@@ -49,6 +119,18 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Keyframes Animation */}
+      <style jsx>{`
+        @keyframes dash {
+          0% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-dashoffset: -600;
+          }
+        }
+      `}</style>
     </section>
   );
 };
