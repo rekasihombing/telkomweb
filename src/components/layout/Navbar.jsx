@@ -49,14 +49,14 @@ const Navbar = ({ activeTab, setActiveTab }) => {
           {/* Desktop Navigation Menu – glass ditingkatkan */}
           <div className="hidden md:flex items-center">
             <div 
-              className="flex items-center space-x-4 rounded-2xl px-3 py-1.5"
-              style={{
-                background: 'rgba(255, 255, 255, 0.16)',
-                backdropFilter: 'blur(16px) saturate(170%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(170%)',
-                border: '1px solid rgba(255, 255, 255, 0.22)',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.30), 0 2px 12px rgba(0,0,0,0.06)',
-              }}
+              // className="flex items-center space-x-4 rounded-2xl px-3 py-1.5"
+              // style={{
+              //   // background: 'rgba(255, 255, 255, 0.16)',
+              //   backdropFilter: 'blur(16px) saturate(170%)',
+              //   WebkitBackdropFilter: 'blur(16px) saturate(170%)',
+              //   border: '1px solid rgba(255, 255, 255, 0.22)',
+              //   boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.30), 0 2px 12px rgba(0,0,0,0.06)',
+              // }}
             >
               {menuItems.map((item) => (
                 <button

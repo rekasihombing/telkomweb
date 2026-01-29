@@ -1,159 +1,142 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const ComparisonSection = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
+      transition: { staggerChildren: 0.15 },
+    },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
-    }
+      transition: { duration: 0.6 },
+    },
   };
 
   return (
-    <section className="py-12 px-4">
+    <section className="pt-6 pb-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div 
-          className="bg-gradient-to-br from-red-50 to-white rounded-3xl shadow-2xl p-8 md:p-12 relative overflow-hidden"
-          initial={{ opacity: 0, scale: 0.95 }}
+        <motion.div
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-50 to-white p-8 md:p-12 shadow-2xl"
+          initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-red-200 rounded-full opacity-20 blur-3xl -mr-32 -mt-32"></div>
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-pink-200 rounded-full opacity-20 blur-3xl -ml-24 -mb-24"></div>
+          {/* Decorative blur */}
+          <div className="absolute -top-32 -right-32 w-64 h-64 bg-red-200/30 rounded-full blur-3xl" />
+          <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-pink-200/30 rounded-full blur-3xl" />
 
           <div className="relative z-10">
-            {/* Comparison Header */}
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+            {/* Section label */}
+            <div className="flex items-center justify-center mb-12">
+              <div className="flex items-center gap-4">
+                <span className="h-px w-20 bg-red-200" />
+                <span className="text-xs font-semibold tracking-[0.3em] text-red-500">
+                  PERBANDINGAN
+                </span>
+                <span className="h-px w-20 bg-red-200" />
+              </div>
+            </div>
+
+            {/* Header comparison */}
+            <motion.div
+              className="relative grid grid-cols-1 md:grid-cols-2 gap-10 mb-14"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {/* Telkom Side */}
-              <motion.div 
-                className="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white text-center shadow-xl hover:shadow-2xl transition-all"
-                variants={itemVariants}
-              >
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-red-500 font-bold text-lg">T</span>
-                  </div>
-                  <h3 className="text-2xl font-bold">Telkom</h3>
+              {/* VS divider (desktop only) */}
+              <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none">
+                <div className="flex flex-col items-center">
+                  <span className="h-16 w-px bg-red-200" />
+                  <span className="my-2 text-sm font-semibold text-red-400">
+                    VS
+                  </span>
+                  <span className="h-16 w-px bg-red-200" />
                 </div>
-                <p className="text-sm opacity-90">Induk perusahaan<br/>Status Digital</p>
+              </div>
+
+              {/* Telkom */}
+              <motion.div
+                variants={itemVariants}
+                className="rounded-2xl bg-gradient-to-br from-red-500 to-red-600 p-6 text-white text-center shadow-xl"
+              >
+                <h3 className="text-2xl font-bold mb-1">Telkom</h3>
+                <p className="text-sm opacity-90">
+                  Induk perusahaan<br />
+                  Strategi & digital platform
+                </p>
               </motion.div>
 
-              {/* Center - Scale Icon */}
-              <motion.div 
-                className="flex items-center justify-center relative"
+              {/* Telkomsel */}
+              <motion.div
                 variants={itemVariants}
+                className="rounded-2xl bg-gradient-to-br from-red-600 to-red-700 p-6 text-white text-center shadow-xl"
               >
-                <div className="bg-white rounded-full p-6 shadow-xl">
-                  <div className="text-6xl">⚖️</div>
-                </div>
-                <div className="absolute -bottom-4 bg-red-500 text-white px-5 py-2 rounded-full text-sm font-medium shadow-lg">
-                  Perbedaan Utama
-                </div>
-              </motion.div>
-
-              {/* Telkomsel Side */}
-              <motion.div 
-                className="bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-6 text-white text-center shadow-xl hover:shadow-2xl transition-all"
-                variants={itemVariants}
-              >
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-red-600 font-bold text-2xl">⚡</span>
-                  </div>
-                  <h3 className="text-2xl font-bold">Telkomsel</h3>
-                </div>
-                <p className="text-sm opacity-90">Layanan Seluler &<br/>Digital untuk Masyarakat</p>
+                <h3 className="text-2xl font-bold mb-1">Telkomsel</h3>
+                <p className="text-sm opacity-90">
+                  Layanan seluler<br />
+                  & digital untuk masyarakat
+                </p>
               </motion.div>
             </motion.div>
 
-            {/* Comparison Details */}
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"
+    
+
+            {/* Detail comparison */}
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {/* Telkom Details */}
-              <motion.div 
-                className="bg-white rounded-2xl p-6 shadow-lg space-y-4 hover:shadow-xl transition-all"
+              {/* Telkom detail */}
+              <motion.div
                 variants={itemVariants}
+                className="rounded-2xl bg-white p-6 shadow-md space-y-4"
               >
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">🏢</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Induk perusahaan (Holding)</h4>
+                {[
+                  "Induk perusahaan (Holding)",
+                  "Badan Usaha Milik Negara (BUMN)",
+                  "Menentukan arah & strategi Telkom Group",
+                  "Fokus platform & solusi digital",
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl bg-gradient-to-br from-red-50 to-white p-4 text-sm font-medium text-gray-800 shadow-md hover:shadow-lg transition-all border border-red-100"
+                  >
+                    {item}
                   </div>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">🏛️</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Badan Usaha Milik Negara (BUMN)</h4>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">📊</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Mengelola strategi & arah bisnis Telkom Group</h4>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">💼</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Platform digital (IoT, Big Data)</h4>
-                  </div>
-                </div>
+                ))}
               </motion.div>
 
-              {/* Telkomsel Details */}
-              <motion.div 
-                className="bg-white rounded-2xl p-6 shadow-lg space-y-4 hover:shadow-xl transition-all"
+              {/* Telkomsel detail */}
+              <motion.div
                 variants={itemVariants}
+                className="rounded-2xl bg-white p-6 shadow-md space-y-4"
               >
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">👥</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Anak perusahaan Telkom Group</h4>
+                {[
+                  "Anak perusahaan Telkom Group",
+                  "Operator telekomunikasi seluler",
+                  "Fokus layanan ritel (end user)",
+                  "Cakupan nasional & global",
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl bg-gradient-to-br from-red-50 to-white p-4 text-sm font-medium text-gray-800 shadow-md hover:shadow-lg transition-all border border-red-100"
+                  >
+                    {item}
                   </div>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">📡</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Operator telekomunikasi seluler</h4>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">👤</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Fokus pada layanan ritel (end user)</h4>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
-                  <span className="text-3xl">🌍</span>
-                  <div>
-                    <h4 className="font-bold text-gray-800 text-base">Nasional & global</h4>
-                  </div>
-                </div>
+                ))}
               </motion.div>
             </motion.div>
           </div>

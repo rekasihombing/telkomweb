@@ -14,7 +14,6 @@ const PerbedaanPage = () => {
       <BusinessFocusSection />
       <TargetCustomerSection />
       <UsageExamplesSection />
-      <FooterInfoSection />
     </div>
   );
 };

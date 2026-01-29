@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const HeaderSection = () => {
   return (
-    <section className="py-12 px-4">
+    <section className="pt-12 pb-6 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <motion.div 
@@ -29,8 +29,9 @@ const HeaderSection = () => {
           Perbedaan <span className="text-red-500">Telkom dan Telkomsel</span>
         </motion.h1>
         
+        {/* Full Width Description */}
         <motion.p 
-          className="text-gray-600 text-lg max-w-4xl"
+          className="text-gray-600 text-lg leading-relaxed"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
