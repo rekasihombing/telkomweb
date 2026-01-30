@@ -21,27 +21,6 @@ const AboutTelkomPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-slate-100">
-      
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-red-200/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gray-300/20 rounded-full blur-3xl animate-pulse delay-700" />
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block mb-4 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full text-red-600 text-sm font-semibold backdrop-blur-sm">
-            🇮🇩 BUMN Indonesia
-          </span>
-
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Tentang <span className="text-red-500">Telkom Group</span>
-          </h1>
-
-          <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
-            Telkom Group adalah BUMN yang membangun infrastruktur dan layanan
-            digital untuk mendukung transformasi Indonesia.
-          </p>
-        </div>
-      </section>
 
       {/* ================= CARDS SECTION ================= */}
       <section className="py-16">
