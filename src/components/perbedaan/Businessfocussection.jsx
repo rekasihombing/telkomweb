@@ -1,107 +1,111 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const BusinessFocusSection = () => {
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
-    visible: {
+    show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3
-      }
-    }
+        staggerChildren: 0.12,
+        delayChildren: 0.05,
+      },
+    },
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.6 }
-    }
+  const item = {
+    hidden: { opacity: 0, y: 18 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
   };
+
+  const telkom = [
+    "Infrastruktur digital nasional",
+    "Data center & Cloud",
+    "Solusi enterprise & pemerintahan",
+    "Platform digital (IoT, Big Data)",
+  ];
+
+  const telkomsel = [
+    "Telekomunikasi seluler",
+    "Internet mobile",
+    "Layanan digital lifestyle",
+    "Konten hiburan & aplikasi digital",
+  ];
+
+  const ColumnCard = ({ logoSrc, logoAlt, title, items }) => (
+    <motion.div variants={item} className="rounded-3xl bg-white p-8 shadow-md">
+      <div className="flex items-center gap-4 mb-6">
+        <div className="h-12 w-12 rounded-2xl bg-red-50 p-2 shadow-md flex items-center justify-center">
+          <img
+            src={logoSrc}
+            alt={logoAlt}
+            className="block max-h-8 max-w-8 object-contain"
+            draggable="false"
+          />
+        </div>
+
+        <h3 className="text-xl md:text-2xl font-bold tracking-tight text-gray-900">
+          {title}
+        </h3>
+      </div>
+
+      <div className="-mx-8 h-px bg-red-100/70" />
+
+      <div className="pt-6">
+        <ul className="space-y-4">
+          {items.map((t, idx) => (
+            <li
+              key={idx}
+              className="rounded-2xl bg-red-50/55 px-4 py-3 text-sm md:text-base text-gray-700 leading-relaxed"
+            >
+              {t}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+  );
 
   return (
-    <section className="py-12 px-4">
+    <section className="py-12 md:py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.h2 
-          className="text-4xl font-bold text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
+        <motion.h2
+          className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-10 text-gray-900"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           Perbedaan <span className="text-red-500">Fokus Bisnis</span>
         </motion.h2>
 
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          variants={containerVariants}
+        <motion.div
+          variants={container}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          {/* Telkom Focus */}
-          <motion.div 
-            className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all"
-            variants={cardVariants}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center shadow-md">
-                <span className="text-white font-bold text-lg">T</span>
-              </div>
-              <h3 className="text-2xl font-bold text-red-500">Telkom</h3>
-            </div>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-500 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Infrastruktur digital nasional</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-500 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Data center & Cloud</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-500 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Solusi enterprise & pemerintahan</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-500 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Platform digital (IoT, Big Data)</span>
-              </li>
-            </ul>
-          </motion.div>
+          <ColumnCard
+            logoSrc="/images/telkom-logo.png"
+            logoAlt="Telkom Logo"
+            title="Telkom"
+            items={telkom}
+          />
 
-          {/* Telkomsel Focus */}
-          <motion.div 
-            className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all"
-            variants={cardVariants}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-md">
-                <span className="text-white font-bold text-2xl">⚡</span>
-              </div>
-              <h3 className="text-2xl font-bold text-red-600">Telkomsel</h3>
-            </div>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-600 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Telekomunikasi seluler</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-600 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Internet mobile</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-600 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Layanan digital lifestyle</span>
-              </li>
-              <li className="flex items-start gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors">
-                <span className="text-red-600 text-xl font-bold">•</span>
-                <span className="text-gray-700 text-base">Konten hiburan & aplikasi digital</span>
-              </li>
-            </ul>
-          </motion.div>
+          <ColumnCard
+            logoSrc="/images/telkomsel-logo.svg"
+            logoAlt="Telkomsel Logo"
+            title="Telkomsel"
+            items={telkomsel}
+          />
         </motion.div>
       </div>
     </section>

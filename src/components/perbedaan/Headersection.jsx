@@ -7,7 +7,7 @@ const HeaderSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <motion.div 
-          className="text-sm text-gray-600 mb-6"
+          className="text-xs md:text-sm text-gray-600 mb-6"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -20,7 +20,7 @@ const HeaderSection = () => {
 
         {/* Title */}
         <motion.h1 
-          className="text-4xl md:text-5xl font-bold mb-4"
+          className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -29,9 +29,9 @@ const HeaderSection = () => {
           Perbedaan <span className="text-red-500">Telkom dan Telkomsel</span>
         </motion.h1>
         
-        {/* Full Width Description */}
+        {/* Description */}
         <motion.p 
-          className="text-gray-600 text-lg leading-relaxed"
+          className="text-base md:text-lg text-gray-600 leading-relaxed"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
