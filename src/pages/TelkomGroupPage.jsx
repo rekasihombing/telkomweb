@@ -87,7 +87,9 @@ export default function TelkomInfographic() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
             <BusinessCard
+            
               icon={Wifi}
               title="Telekomunikasi"
               img
