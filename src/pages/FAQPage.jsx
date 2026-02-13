@@ -1,10 +1,11 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { ChevronRight, Mail, Plus } from "lucide-react";
+import { ChevronRight, Mail, Plus, X } from "lucide-react";
 
 export default function TelkomFAQ() {
-  const [expandedFaq, setExpandedFaq] = useState(null); // index di filteredFaqs
+  const [expandedFaq, setExpandedFaq] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSidebarQuestion, setSelectedSidebarQuestion] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Pagination
   const PAGE_SIZE = 6;
@@ -43,7 +44,6 @@ export default function TelkomFAQ() {
     },
   ];
 
-  // Tambahin id biar bisa “featured jump”
   const faqs = [
     {
       id: "beda-telkom-telkomsel",
@@ -91,7 +91,7 @@ export default function TelkomFAQ() {
       id: "fokus-bisnis",
       question: "Apa fokus bisnis utama Telkom Indonesia?",
       answer:
-        "Fokus bisnis Telkom Indonesia adalah pada transformasi digital, pengembangan infrastruktur digital nasional, serta penyediaan solusi digital terintegrasi bagi individu, bisnis, dan institusi pemerintahan.",
+        "Fokus bisnis Telkom Indonesia adalah pada transformasi digital, pengembangan infrastruktur digital nasional, serta penyediaan solusi digital terintegasi bagi individu, bisnis, dan institusi pemerintahan.",
     },
     {
       id: "bukan-individu",
@@ -159,12 +159,22 @@ export default function TelkomFAQ() {
   const start = (pageSafe - 1) * PAGE_SIZE;
   const pageFaqs = filteredFaqs.slice(start, start + PAGE_SIZE);
 
-  // reset expand kalau pindah page / search
   useEffect(() => {
     setExpandedFaq(null);
   }, [pageSafe, searchQuery]);
 
-  // Featured 3 (opsi C)
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isSidebarOpen]);
+
   const featured = [
     {
       id: "beda-telkom-telkomsel",
@@ -191,7 +201,6 @@ export default function TelkomFAQ() {
     setPage(targetPage);
     setExpandedFaq(idx);
 
-    // scroll ke element setelah render
     setTimeout(() => {
       const el = document.getElementById(`faq-${id}`);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -199,8 +208,8 @@ export default function TelkomFAQ() {
   };
 
   const Pagination = () => (
-    <div className="flex items-center justify-between gap-4 mt-6">
-      <div className="text-sm text-gray-600">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-6">
+      <div className="text-sm text-gray-600 order-2 sm:order-1">
         Menampilkan <span className="font-semibold text-gray-900">{start + 1}</span>–
         <span className="font-semibold text-gray-900">
           {Math.min(start + PAGE_SIZE, filteredFaqs.length)}
@@ -208,7 +217,7 @@ export default function TelkomFAQ() {
         dari <span className="font-semibold text-gray-900">{filteredFaqs.length}</span> pertanyaan
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 order-1 sm:order-2">
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={pageSafe === 1}
@@ -240,153 +249,184 @@ export default function TelkomFAQ() {
     </div>
   );
 
+  const SidebarContent = () => (
+    <div className="rounded-3xl bg-white p-6 lg:p-8 shadow-md h-full">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 lg:h-12 lg:w-12 rounded-2xl bg-red-50 p-2 shadow-md flex items-center justify-center">
+            <span className="text-lg lg:text-xl">❓</span>
+          </div>
+          <span className="font-bold text-gray-900 text-sm lg:text-base">Pertanyaan Lainnya</span>
+        </div>
+        {isSidebarOpen && (
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition"
+          >
+            <X className="w-5 h-5 text-gray-600" />
+          </button>
+        )}
+      </div>
+
+      <div className="-mx-6 lg:-mx-8 h-px bg-red-100/70" />
+
+      <div className="pt-6 space-y-3 max-h-[calc(100vh-300px)] lg:max-h-none overflow-y-auto">
+        {sidebarQuestions.map((q, idx) => (
+          <div key={idx}>
+            <button
+              type="button"
+              onClick={() =>
+                setSelectedSidebarQuestion(selectedSidebarQuestion === idx ? null : idx)
+              }
+              className={`w-full text-left rounded-2xl px-4 py-4 transition border ${
+                selectedSidebarQuestion === idx
+                  ? "bg-red-50/55 border-red-200"
+                  : "bg-white border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <div
+                  className={`h-8 w-8 lg:h-10 lg:w-10 rounded-xl flex items-center justify-center shrink-0 ${
+                    selectedSidebarQuestion === idx ? "bg-red-100" : "bg-red-50"
+                  }`}
+                >
+                  <span className="text-base lg:text-lg">{q.icon}</span>
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold leading-snug text-sm lg:text-base text-gray-900">
+                    {highlightTelkom(q.question)}
+                  </p>
+                </div>
+
+                <Plus
+                  className={`w-5 h-5 shrink-0 transition-transform ${
+                    selectedSidebarQuestion === idx ? "rotate-45 text-red-600" : "text-gray-400"
+                  }`}
+                />
+              </div>
+            </button>
+
+            {selectedSidebarQuestion === idx && (
+              <div className="mt-3 rounded-2xl bg-red-50/55 border border-red-100 px-4 py-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-sm font-bold text-red-600">A:</span>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    {highlightTelkom(q.answer)}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 pt-6 border-t border-gray-200">
+        <p className="text-gray-700 mb-4 text-sm lg:text-base">
+          <span className="font-semibold">Masih bingung?</span> Hubungi kami untuk pertanyaan lebih lanjut.
+        </p>
+        <button
+          type="button"
+          className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-colors text-sm lg:text-base"
+        >
+          <Mail className="w-5 h-5" />
+          Hubungi Kami
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-white font-sans">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        {/* HERO (tanpa categories, diganti Featured FAQ cards) */}
-        <div className="mb-10">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">FAQ Telkom vs Telkomsel</h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+        {/* HERO */}
+        <div className="mb-8 lg:mb-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 lg:mb-4">
+            FAQ Telkom vs Telkomsel
+          </h1>
 
-          <p className="text-lg text-gray-600 mb-8 max-w-3xl">
+          <p className="text-base sm:text-lg text-gray-600 mb-6 lg:mb-8 max-w-3xl">
             Pertanyaan umum seputar <span className="font-semibold">Telkom</span> dan{" "}
             <span className="font-semibold">Telkomsel</span>, fokus terhadap Telkom Indonesia sebagai holding.
           </p>
 
-          {/* Search Bar (style “Perbedaan”) */}
-          <div className="rounded-3xl bg-white p-8 shadow-md mb-8">
+          {/* Search Bar */}
+          <div className="rounded-2xl lg:rounded-3xl bg-white p-4 sm:p-6 lg:p-8 shadow-md mb-6 lg:mb-8">
             <div className="relative">
               <input
                 type="text"
-                placeholder="Cari pertanyaan... (contoh: holding, IndiHome, data center)"
+                placeholder="Cari pertanyaan..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-6 py-4 pr-14 border-2 border-gray-200 rounded-2xl focus:border-red-500 focus:outline-none text-gray-700 placeholder-gray-400"
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 pr-12 sm:pr-14 border-2 border-gray-200 rounded-xl lg:rounded-2xl focus:border-red-500 focus:outline-none text-gray-700 placeholder-gray-400 text-sm sm:text-base"
               />
               <button
                 type="button"
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center hover:bg-red-700 transition-colors"
-                onClick={() => {
-                  // no-op; search realtime
-                }}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-red-600 rounded-lg lg:rounded-xl flex items-center justify-center hover:bg-red-700 transition-colors"
               >
-                <ChevronRight className="w-5 h-5 text-white" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </button>
             </div>
 
-            {/* Featured FAQ (Opsi C) */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Featured FAQ */}
+            <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {featured.map((f) => (
                 <button
                   key={f.id}
                   type="button"
                   onClick={() => jumpToFaq(f.id)}
-                  className="text-left rounded-2xl bg-red-50/55 px-5 py-4 border border-red-100 hover:border-red-200 transition"
+                  className="text-left rounded-xl lg:rounded-2xl bg-red-50/55 px-4 sm:px-5 py-3 sm:py-4 border border-red-100 hover:border-red-200 transition"
                 >
-                  <div className="text-xs font-semibold tracking-wide text-red-600 mb-2">
+                  <div className="text-xs font-semibold tracking-wide text-red-600 mb-1 sm:mb-2">
                     {f.label}
                   </div>
-                  <div className="text-sm md:text-base font-semibold text-gray-900 leading-snug">
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 leading-snug">
                     {highlightTelkom(f.question)}
                   </div>
                 </button>
               ))}
             </div>
           </div>
+
+          {/* Mobile sidebar toggle button */}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="lg:hidden w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-colors mb-6"
+          >
+            <span className="text-lg">❓</span>
+            Lihat Pertanyaan Lainnya
+          </button>
         </div>
 
         {/* MAIN */}
         <div className="flex gap-6">
-          {/* Sidebar (samain style card perbedaan) */}
-          <div className="w-96 flex-shrink-0">
-            <div className="rounded-3xl bg-white p-8 shadow-md">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-12 w-12 rounded-2xl bg-red-50 p-2 shadow-md flex items-center justify-center">
-                  <span className="text-xl">❓</span>
-                </div>
-                <span className="font-bold text-gray-900">Pertanyaan Lainnya</span>
-              </div>
-
-              <div className="-mx-8 h-px bg-red-100/70" />
-
-              <div className="pt-6 space-y-3">
-                {sidebarQuestions.map((q, idx) => (
-                  <div key={idx}>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setSelectedSidebarQuestion(selectedSidebarQuestion === idx ? null : idx)
-                      }
-                      className={`w-full text-left rounded-2xl px-4 py-4 transition border ${
-                        selectedSidebarQuestion === idx
-                          ? "bg-red-50/55 border-red-200"
-                          : "bg-white border-gray-200 hover:border-gray-300"
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div
-                          className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${
-                            selectedSidebarQuestion === idx ? "bg-red-100" : "bg-red-50"
-                          }`}
-                        >
-                          <span className="text-lg">{q.icon}</span>
-                        </div>
-
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-semibold leading-snug ${
-                              selectedSidebarQuestion === idx ? "text-gray-900" : "text-gray-900"
-                            }`}
-                          >
-                            {highlightTelkom(q.question)}
-                          </p>
-                        </div>
-
-                        <Plus
-                          className={`w-5 h-5 shrink-0 transition-transform ${
-                            selectedSidebarQuestion === idx ? "rotate-45 text-red-600" : "text-gray-400"
-                          }`}
-                        />
-                      </div>
-                    </button>
-
-                    {selectedSidebarQuestion === idx && (
-                      <div className="mt-3 rounded-2xl bg-red-50/55 border border-red-100 px-4 py-4">
-                        <div className="flex items-start gap-3">
-                          <span className="text-sm font-bold text-red-600">A:</span>
-                          <p className="text-gray-700 text-sm leading-relaxed">
-                            {highlightTelkom(q.answer)}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <p className="text-gray-700 mb-4">
-                  <span className="font-semibold">Masih bingung?</span> Hubungi kami untuk pertanyaan lebih lanjut.
-                </p>
-                <button
-                  type="button"
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-colors"
-                >
-                  <Mail className="w-5 h-5" />
-                  Hubungi Kami
-                </button>
-              </div>
-            </div>
+          {/* Desktop Sidebar */}
+          <div className="hidden lg:block w-96 flex-shrink-0">
+            <SidebarContent />
           </div>
 
+          {/* Mobile Sidebar Overlay */}
+          {isSidebarOpen && (
+            <>
+              <div
+                className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+              <div className="fixed inset-y-0 right-0 w-full sm:w-96 bg-white z-50 lg:hidden overflow-y-auto">
+                <SidebarContent />
+              </div>
+            </>
+          )}
+
           {/* FAQ list */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             {/* Pagination top */}
             <Pagination />
 
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 space-y-3 sm:space-y-4">
               {pageFaqs.map((faq, localIdx) => {
                 const globalIdx = start + localIdx;
                 const isOpen = expandedFaq === globalIdx;
@@ -395,25 +435,25 @@ export default function TelkomFAQ() {
                   <div
                     key={faq.id}
                     id={`faq-${faq.id}`}
-                    className="rounded-3xl bg-white shadow-md overflow-hidden"
+                    className="rounded-2xl lg:rounded-3xl bg-white shadow-md overflow-hidden"
                   >
                     <button
                       type="button"
                       onClick={() => setExpandedFaq(isOpen ? null : globalIdx)}
-                      className="w-full p-8 flex items-start gap-4 text-left"
+                      className="w-full p-4 sm:p-6 lg:p-8 flex items-start gap-3 sm:gap-4 text-left"
                     >
-                      <div className="h-12 w-12 rounded-2xl bg-red-50 p-2 shadow-md flex items-center justify-center shrink-0">
-                        <span className="text-base font-bold text-gray-900">Q</span>
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl lg:rounded-2xl bg-red-50 p-2 shadow-md flex items-center justify-center shrink-0">
+                        <span className="text-sm sm:text-base font-bold text-gray-900">Q</span>
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-lg md:text-xl font-semibold text-gray-900 leading-snug">
+                        <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 leading-snug">
                           {highlightTelkom(faq.question)}
                         </h3>
                       </div>
 
                       <Plus
-                        className={`w-6 h-6 text-gray-400 shrink-0 transition-transform ${
+                        className={`w-5 h-5 sm:w-6 sm:h-6 text-gray-400 shrink-0 transition-transform ${
                           isOpen ? "rotate-45" : ""
                         }`}
                       />
@@ -422,11 +462,11 @@ export default function TelkomFAQ() {
                     <div className="-mx-0 h-px bg-red-100/70" />
 
                     {isOpen && faq.answer && (
-                      <div className="p-8 pt-6">
-                        <div className="rounded-2xl bg-red-50/55 border border-red-100 px-5 py-4">
+                      <div className="p-4 sm:p-6 lg:p-8 pt-4 sm:pt-6">
+                        <div className="rounded-xl lg:rounded-2xl bg-red-50/55 border border-red-100 px-4 sm:px-5 py-3 sm:py-4">
                           <div className="flex items-start gap-3">
                             <span className="text-sm font-bold text-red-600">A:</span>
-                            <p className="text-gray-700 leading-relaxed">
+                            <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
                               {highlightTelkom(faq.answer)}
                             </p>
                           </div>
@@ -438,8 +478,8 @@ export default function TelkomFAQ() {
               })}
 
               {filteredFaqs.length === 0 && (
-                <div className="rounded-3xl bg-white p-8 shadow-md">
-                  <p className="text-gray-700">
+                <div className="rounded-2xl lg:rounded-3xl bg-white p-6 lg:p-8 shadow-md">
+                  <p className="text-gray-700 text-sm sm:text-base">
                     Tidak ada hasil untuk <span className="font-semibold">{searchQuery}</span>.
                   </p>
                 </div>
