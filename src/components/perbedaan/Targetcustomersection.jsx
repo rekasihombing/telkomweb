@@ -110,7 +110,7 @@ const TargetCustomerSection = () => {
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
           <ColumnCard
-            logoSrc="/images/telkom-logo.png"
+            logoSrc="images/telkom-logo.png"
             logoAlt="Telkom Logo"
             title="Telkom"
             badge="Segment"
@@ -118,7 +118,7 @@ const TargetCustomerSection = () => {
           />
 
           <ColumnCard
-            logoSrc="/images/telkomsel-logo.svg"
+            logoSrc="images/telkomsel-logo.svg"
             logoAlt="Telkomsel Logo"
             title="Telkomsel"
             badge="Segment"

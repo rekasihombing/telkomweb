@@ -22,7 +22,7 @@ const UsageExamplesSection = () => {
       tagClass: "text-red-500",
       title: "Koneksi Internet Rumah",
       desc: "Digunakan untuk mendukung aktivitas belajar daring, bekerja dari rumah, serta akses hiburan keluarga melalui jaringan internet tetap.",
-      logoSrc: "/images/telkom-logo.png",
+      logoSrc: "images/telkom-logo.png",
       logoAlt: "Telkom Logo",
     },
     {
@@ -30,7 +30,7 @@ const UsageExamplesSection = () => {
       tagClass: "text-red-600",
       title: "Akses Internet Seluler",
       desc: "Digunakan saat berkomunikasi, berselancar di media sosial, dan mengakses aplikasi digital melalui perangkat seluler.",
-      logoSrc: "/images/telkomsel-logo.svg",
+      logoSrc: "images/telkomsel-logo.svg",
       logoAlt: "Telkomsel Logo",
     },
     {
@@ -38,7 +38,7 @@ const UsageExamplesSection = () => {
       tagClass: "text-red-500",
       title: "Kebutuhan Infrastruktur Perusahaan",
       desc: "Dimanfaatkan oleh perusahaan untuk pengelolaan data, layanan cloud, serta sistem informasi berskala besar.",
-      logoSrc: "/images/telkom-logo.png",
+      logoSrc: "images/telkom-logo.png",
       logoAlt: "Telkom Logo",
     },
     {
@@ -46,7 +46,7 @@ const UsageExamplesSection = () => {
       tagClass: "text-red-600",
       title: "Hiburan Digital Mobile",
       desc: "Digunakan untuk streaming video, bermain gim, dan menikmati konten digital melalui jaringan seluler.",
-      logoSrc: "/images/telkomsel-logo.svg",
+      logoSrc: "images/telkomsel-logo.svg",
       logoAlt: "Telkomsel Logo",
     },
   ];

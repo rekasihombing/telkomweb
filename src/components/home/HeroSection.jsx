@@ -3,12 +3,13 @@ import React from "react";
 const HeroSection = () => {
   return (
     <section
-      className="relative min-h-screen bg-no-repeat bg-cover font-sans"
-      style={{
-        backgroundImage: "url('/images/herobg.png')",
-        backgroundPosition: "center center",
-      }}
-    >
+  className="relative min-h-screen bg-no-repeat bg-cover font-sans"
+  style={{
+    backgroundImage: `url(${import.meta.env.BASE_URL}images/herobg.png)`,
+    backgroundPosition: "center center",
+  }}
+>
+
       {/* Overlay
       <div className="absolute inset-0 bg-white/60"></div> */}
 

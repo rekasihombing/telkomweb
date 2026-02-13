@@ -1,7 +1,31 @@
 import React from "react";
-import { Building2, BarChart3, Phone, Smartphone, Gem, Rocket } from "lucide-react";
+import { motion } from "framer-motion";
+import { Building2, BarChart3, Phone, Smartphone, Gem, Rocket, ArrowRight } from "lucide-react";
 
 const CompanyCardsSection = () => {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.05,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 18 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   const telkomFeatures = [
     { Icon: Building2, text: "Infrastruktur jaringan & data center" },
     { Icon: Building2, text: "Layanan enterprise & pemerintahan" },
@@ -29,10 +53,8 @@ const CompanyCardsSection = () => {
     badgeIcon: BadgeIcon,
     badgeText,
     features,
-    ctaText,
-    ctaClassName,
   }) => (
-    <div className="rounded-3xl bg-white p-8 shadow-md">
+    <motion.div variants={item} className="rounded-3xl bg-white p-8 shadow-md">
       {/* Header (samakan dengan Perbedaan/Comparison) */}
       <div className="flex items-center gap-4 mb-6">
         <div className="h-12 w-12 rounded-2xl bg-red-50 p-2 shadow-md">
@@ -75,20 +97,11 @@ const CompanyCardsSection = () => {
           ))}
         </ul>
       </div>
-
-      {/* CTA (style disamakan) */}
-      <div className="pt-8">
-        <button
-          className={`w-full rounded-2xl px-6 py-4 text-sm md:text-base font-semibold text-white transition-all shadow-md ${ctaClassName}`}
-        >
-          {ctaText}
-        </button>
-      </div>
-    </div>
+    </motion.div>
   );
 
   const StatCard = ({ value, label, Icon }) => (
-    <div className="rounded-3xl bg-white p-8 shadow-md">
+    <motion.div variants={item} className="rounded-3xl bg-white p-8 shadow-md">
       <div className="flex items-center gap-4 mb-6">
         <div className="h-12 w-12 rounded-2xl bg-red-50 p-2 shadow-md flex items-center justify-center">
           <Icon className="h-6 w-6 text-red-600" />
@@ -109,7 +122,7 @@ const CompanyCardsSection = () => {
           Ringkasan metrik untuk mendukung pemahaman cepat tentang skala layanan.
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
@@ -121,7 +134,13 @@ const CompanyCardsSection = () => {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header (selaras dengan PerbedaanPage) */}
-        <div className="text-center mb-12 md:mb-14">
+        <motion.div
+          className="text-center mb-12 md:mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="inline-block mb-4">
             <span className="px-4 py-2 rounded-full text-sm font-semibold text-red-600 bg-red-100">
               Telkom Group Ecosystem
@@ -135,41 +154,69 @@ const CompanyCardsSection = () => {
           <p className="text-gray-600 mt-4 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
             Telkom Group membangun infrastruktur dan layanan digital untuk mempercepat transformasi Indonesia.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <BrandCard
-            logoSrc="/images/telkom-logo.png"
-            logoAlt="Telkom Logo"
-            title="Telkom"
-            lead="Digital Infrastructure"
-            badgeIcon={BarChart3}
-            badgeText="Infrastructure Provider"
-            features={telkomFeatures}
-            ctaText="Pelajari Telkom"
-            ctaClassName="bg-red-500 hover:bg-red-600"
-          />
+        {/* Cards with CTA Button */}
+        <div className="mb-12">
+          {/* CTA Button - positioned top right */}
+          <motion.div
+            className="flex justify-end mb-6"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <a
+              href="/perbedaan"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all group"
+            >
+              Lihat Perbandingan Detail
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </motion.div>
 
-          <BrandCard
-            logoSrc="/images/telkomsel-logo.svg"
-            logoAlt="Telkomsel Logo"
-            title="Telkomsel"
-            lead="Mobile & Digital"
-            badgeIcon={Phone}
-            badgeText="Mobile Operator"
-            features={telkomselFeatures}
-            ctaText="Pelajari Telkomsel"
-            ctaClassName="bg-red-600 hover:bg-red-700"
-          />
+          {/* Brand Cards */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          >
+            <BrandCard
+              logoSrc="images/telkom-logo.png"
+              logoAlt="Telkom Logo"
+              title="Telkom"
+              lead="Digital Infrastructure"
+              badgeIcon={BarChart3}
+              badgeText="Infrastructure Provider"
+              features={telkomFeatures}
+            />
+
+            <BrandCard
+              logoSrc="images/telkomsel-logo.svg"
+              logoAlt="Telkomsel Logo"
+              title="Telkomsel"
+              lead="Mobile & Digital"
+              badgeIcon={Phone}
+              badgeText="Mobile Operator"
+              features={telkomselFeatures}
+            />
+          </motion.div>
         </div>
 
         {/* Stats (dibikin card juga, feel sama) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
           {stats.map((s, i) => (
             <StatCard key={i} {...s} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
